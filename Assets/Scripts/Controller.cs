@@ -1,12 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Controller : MonoBehaviour {
 
 
     public float speed;
-   
-	// Use this for initialization
+    public GameObject bullet;
+    public GameObject bulletSpawn1;
+    public GameObject bulletSpawn2;
+    public GameObject playerBullets;
+    public List<Material> skyboxes;
+    private bool bulletspawn = false;
+
+    // Use this for initialization
+    void Awake() {
+        Skybox skybox = Camera.main.GetComponent<Skybox>();
+        skybox.material = skyboxes[Random.Range(0, 3)];
+        
+    }
+
 	void Start () {
 	
 	}
@@ -41,6 +54,31 @@ public class Controller : MonoBehaviour {
         Vector3 movement = new Vector3(moveHorizontal, moveVertical,0.0f );
         
         transform.Translate(movement * Time.deltaTime * speed,Space.World);
-        
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Shoot();
+        }
     }
+
+    void Shoot() {
+        GameObject Bullet = null;
+        if (bulletspawn)
+        {
+            Bullet = Instantiate(bullet, bulletSpawn1.transform.position, new Quaternion(0, 0, 0, 0)) as GameObject;
+            bulletspawn = false;
+        }
+        else
+        {
+            Bullet = Instantiate(bullet, bulletSpawn2.transform.position, new Quaternion(0, 0, 0, 0)) as GameObject;
+            bulletspawn = true;
+        }
+        Bullet.transform.SetParent(playerBullets.transform);
+       // Bullet.transform.LookAt(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Bullet.transform.Rotate(90, 0, 0);
+        Bullet.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(0, 0, 20));
+    }
+
+
 }
+
