@@ -23,7 +23,7 @@ public class EnemyControl : MonoBehaviour {
         while (true)
         {
            
-            GameObject enem = Instantiate(enemy, new Vector3(transform.position.x+Random.Range(-6.2f,6.2f),transform.position.y+Random.Range(-2.5f,4.0f),transform.position.z), new Quaternion(0, 180, 0, 0)) as GameObject;
+            GameObject enem = Instantiate(enemy, new Vector3(transform.position.x+Random.Range(-5.7f,5.7f),transform.position.y+Random.Range(-1.5f,3.6f),transform.position.z), new Quaternion(0, 180, 0, 0)) as GameObject;
             enem.transform.SetParent(transform);
             yield return new WaitForSeconds(Random.Range(1,5));
         }

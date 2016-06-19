@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Controller : MonoBehaviour {
 
@@ -11,17 +12,22 @@ public class Controller : MonoBehaviour {
     public GameObject bulletSpawn2;
     public GameObject playerBullets;
     public List<Material> skyboxes;
+    public Text message;
+    public Text pointsUI;
+    public static Text staticpointsUI;
+    public static int points = 0;
     private bool bulletspawn = false;
 
     // Use this for initialization
     void Awake() {
         Skybox skybox = Camera.main.GetComponent<Skybox>();
         skybox.material = skyboxes[Random.Range(0, 3)];
-        
+        staticpointsUI = pointsUI;
     }
 
 	void Start () {
-	
+        StartCoroutine(messageDisappear());
+        pointsUI.text = points.ToString();
 	}
 	
 	// Update is called once per frame
@@ -79,6 +85,10 @@ public class Controller : MonoBehaviour {
         Bullet.GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3(0, 0, 20));
     }
 
+    IEnumerator messageDisappear() {
+        yield return new WaitForSeconds(3);
+        message.enabled = false;
+    }
 
 }
 
